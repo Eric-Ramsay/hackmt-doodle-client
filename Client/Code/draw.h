@@ -18,15 +18,6 @@ void setPlainVertex(int index, int dX, int dY, sf::Color color) {
 	vertex->texCoords.y = 0;
 }
 
-void drawSprite(int sourceX, int sourceY, int width, int height, int drawX, int drawY, sf::Color color = sf::Color(255, 255, 255)) {
-	setVertex(numVertices++, sourceX, sourceY, drawX, drawY, color); // 1
-	setVertex(numVertices++, sourceX + width, sourceY, drawX + width, drawY, color); // 2
-	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height, color); // 4
-	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height, color); // 4
-	setVertex(numVertices++, sourceX + width, sourceY, drawX + width, drawY, color); // 2
-	setVertex(numVertices++, sourceX + width, sourceY + height, drawX + width, drawY + height, color); //3
-}
-
 void fillShape(Point topLeft, Point topRight, Point botLeft, Point botRight, sf::Color color) {
 	setPlainVertex(numVertices++, topLeft.x, topLeft.y, color); // 1
 	setPlainVertex(numVertices++, topRight.x, topRight.y, color); // 2
@@ -34,4 +25,25 @@ void fillShape(Point topLeft, Point topRight, Point botLeft, Point botRight, sf:
 	setPlainVertex(numVertices++, botLeft.x, botLeft.y, color); // 4
 	setPlainVertex(numVertices++, topRight.x, topRight.y, color); // 2
 	setPlainVertex(numVertices++, botRight.x, botRight.y, color); //3
+}
+
+Box drawSprite(int sourceX, int sourceY, int width, int height, int drawX, int drawY, sf::Color color = sf::Color(255, 255, 255), int scaleX = 1, int scaleY = 1) {
+	setVertex(numVertices++, sourceX, sourceY, drawX + width * scaleX, drawY, color); // 1
+	setVertex(numVertices++, sourceX, sourceY, drawX + width * scaleX, drawY, color); // 2
+	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height * scaleY, color); // 4
+	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height * scaleY, color); // 4
+	setVertex(numVertices++, sourceX, sourceY, drawX + width * scaleX, drawY, color); // 2
+	setVertex(numVertices++, sourceX, sourceY + height, drawX + width, drawY + height * scaleY, color); //3
+
+	return Box(drawX, drawY, width * scaleX, width * scaleY);
+}
+
+Box fillRect(int drawX, int drawY, int width, int height, sf::Color color) {
+	return drawSprite(253, 0, 1, 1, drawX, drawY, color, width, height);
+}
+
+Box drawSection(int x, int y, int w, int h, sf::Color border, sf::Color inside, int borderW = 1) {
+	fillRect(x, y, w, h, border);
+	fillRect(x + borderW, y + borderW, w - 2 * borderW, h - 2 * borderW, inside);
+	return Box(x, y, w, h);
 }

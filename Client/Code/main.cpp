@@ -56,11 +56,11 @@ int main() {
 			}
 		}
 		
-		texture.clear(sf::Color(30, 100, 180));
+		//texture.clear(sf::Color(30, 100, 180));
 
 		drawSprite(0, 0, 16, 16, 1, 1);
 
-		fillShape(Point(30, 30), Point(30, 50), Point(50, 30), Point(50, 50), sf::Color::Red);
+		//fillShape(Point(30, 30), Point(30, 50), Point(50, 30), Point(50, 50), sf::Color::Red);
 
 		if (numVertices > 0) {
 			texture.draw(&vertices[0], numVertices, sf::Triangles, &spriteSheet);
