@@ -41,4 +41,4 @@ struct GameState {
 	int round;
 	std::string drawingId;
 	Action draw;
-};
+}; 
