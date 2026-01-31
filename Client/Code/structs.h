@@ -56,3 +56,10 @@ struct Action {
 	int width;
 	std::string color;
 };
+
+struct GameState {
+	std::string currentWord;
+	int round;
+	std::string drawingId;
+	std::vector<Action> actions;
+};
