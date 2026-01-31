@@ -22,9 +22,12 @@
     <ClCompile Include="Code\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\colors.h" />
     <ClInclude Include="Code\draw.h" />
     <ClInclude Include="Code\globals.h" />
     <ClInclude Include="Code\structs.h" />
+    <ClInclude Include="Code\text.h" />
+    <ClInclude Include="Code\UI.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

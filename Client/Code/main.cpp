@@ -5,10 +5,13 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "globals.h"
-#include "structs.h"
-#include "draw.h"
 #include "httplib.h"
+#include "colors.h"
+#include "structs.h"
+#include "globals.h"
+#include "text.h"
+#include "draw.h"
+#include "UI.h"
 
 int main() {
 	// HTTPS
@@ -19,11 +22,11 @@ int main() {
 		res->body;
 	}
 
-	const int WIDTH = 640;
-	const int HEIGHT = 360;
-
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
 	const int SCREEN_H = sf::VideoMode::getDesktopMode().height;
+
+	const int SCALE_X = SCREEN_W / WIDTH;
+	const int SCALE_Y = SCREEN_H / HEIGHT;
 
 	sf::RenderWindow window;
 	window.create(sf::VideoMode(SCREEN_W, SCREEN_H), "Doodle", sf::Style::Fullscreen);
@@ -36,10 +39,10 @@ int main() {
 
 	sf::Sprite sprite;
 	sprite.setPosition(0, 0);
-	sprite.setScale(SCREEN_W/WIDTH, SCREEN_H/HEIGHT);
+	sprite.setScale(SCALE_X, SCALE_Y);
 
 	vertices.resize(vertSize);
-	
+
 	while (window.isOpen()) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
@@ -49,18 +52,64 @@ int main() {
 			std::cout << "Increasing the size of the vertex buffer!" << std::endl;
 		}
 
+		eventInfo.mouseX = sf::Mouse::getPosition().x / SCALE_X;
+		eventInfo.mouseY = sf::Mouse::getPosition().y / SCALE_Y;
+		eventInfo.mouseUp = false;
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+			else if (event.type == sf::Event::LostFocus) {
+				eventInfo.inGame = false;
+			}
+			else if (event.type == sf::Event::GainedFocus) {
+				eventInfo.inGame = true;
+			}
+			if (eventInfo.inGame) {
+				if (event.type == sf::Event::MouseButtonPressed) {
+					if (event.mouseButton.button == sf::Mouse::Left) {
+						eventInfo.mouseDown = true;
+					}
+				}
+				if (event.type == sf::Event::MouseButtonReleased) {
+					if (event.mouseButton.button == sf::Mouse::Left) {
+						eventInfo.mouseDown = false;
+						eventInfo.mouseUp = true;
+					}
+				}
+				if (event.type == sf::Event::KeyPressed) {
+					int keyCode = (int)event.key.code;
+					char c = 0;
+
+					if (keyCode >= sf::Keyboard::A && keyCode <= sf::Keyboard::Z) {
+						char add = 'a';
+						if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+							add = 'A';
+						}
+						c = add + (keyCode - (int)sf::Keyboard::A);
+					}
+					else if (keyCode >= sf::Keyboard::Num0 && keyCode <= sf::Keyboard::Num9) {
+						c = (char)(keyCode - sf::Keyboard::Num0 + '0');
+					}
+					else if (keyCode == sf::Keyboard::Space) {
+						c = (char)(keyCode - sf::Keyboard::Space + ' ');
+					}
+					else if (event.key.code == sf::Keyboard::Backspace) {
+						if (eventInfo.guess.size() > 0) {
+							eventInfo.guess.pop_back();
+						}
+					}
+					if (c != 0 && eventInfo.guess.size() < 25) {
+						eventInfo.guess += c;
+					}
+				}
+			}
 		}
 		
-		//texture.clear(sf::Color(30, 100, 180));
+		texture.clear(UI_BACKGROUND);
 
-		drawSprite(0, 0, 16, 16, 1, 1);
-
-		//fillShape(Point(30, 30), Point(30, 50), Point(50, 30), Point(50, 50), sf::Color::Red);
+		drawUI();
 
 		if (numVertices > 0) {
 			texture.draw(&vertices[0], numVertices, sf::Triangles, &spriteSheet);

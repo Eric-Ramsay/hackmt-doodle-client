@@ -1,6 +1,9 @@
 #pragma once
 
 void setVertex(int index, int sX, int sY, int dX, int dY, sf::Color color) {
+	if (index >= vertSize) {
+		return;
+	}
 	sf::Vertex* vertex = &vertices[index];
 	vertex->position.x = dX;
 	vertex->position.y = dY;
@@ -10,6 +13,9 @@ void setVertex(int index, int sX, int sY, int dX, int dY, sf::Color color) {
 }
 
 void setPlainVertex(int index, int dX, int dY, sf::Color color) {
+	if (index >= vertSize) {
+		return;
+	}
 	sf::Vertex* vertex = &vertices[index];
 	vertex->position.x = dX;
 	vertex->position.y = dY;
@@ -28,22 +34,81 @@ void fillShape(Point topLeft, Point topRight, Point botLeft, Point botRight, sf:
 }
 
 Box drawSprite(int sourceX, int sourceY, int width, int height, int drawX, int drawY, sf::Color color = sf::Color(255, 255, 255), int scaleX = 1, int scaleY = 1) {
-	setVertex(numVertices++, sourceX, sourceY, drawX + width * scaleX, drawY, color); // 1
-	setVertex(numVertices++, sourceX, sourceY, drawX + width * scaleX, drawY, color); // 2
-	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height * scaleY, color); // 4
-	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height * scaleY, color); // 4
-	setVertex(numVertices++, sourceX, sourceY, drawX + width * scaleX, drawY, color); // 2
-	setVertex(numVertices++, sourceX, sourceY + height, drawX + width, drawY + height * scaleY, color); //3
+	int w = width * scaleX;
+	int h = height * scaleY;
+	setVertex(numVertices++, sourceX, sourceY, drawX, drawY, color); // 1
+	setVertex(numVertices++, sourceX + width, sourceY, drawX + w, drawY, color); // 2
+	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + h, color); // 4
+	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + h, color); // 4
+	setVertex(numVertices++, sourceX + width, sourceY, drawX + w, drawY, color); // 2
+	setVertex(numVertices++, sourceX + width, sourceY + height, drawX + w, drawY + h, color); //3
 
-	return Box(drawX, drawY, width * scaleX, width * scaleY);
+	return Box(drawX, drawY, w, h);
 }
 
 Box fillRect(int drawX, int drawY, int width, int height, sf::Color color) {
 	return drawSprite(253, 0, 1, 1, drawX, drawY, color, width, height);
 }
 
-Box drawSection(int x, int y, int w, int h, sf::Color border, sf::Color inside, int borderW = 1) {
+Box drawSection(int x, int y, int w, int h, sf::Color border = UI_WHITE, sf::Color inside = UI_BACKGROUND, int borderW = 1) {
 	fillRect(x, y, w, h, border);
 	fillRect(x + borderW, y + borderW, w - 2 * borderW, h - 2 * borderW, inside);
 	return Box(x, y, w, h);
+}
+
+void charInfo(char c, int& sX, int& sY, int& sW, bool& drawChar) {
+	sW = 5;
+	if (c >= 'A' && c <= 'Z') {
+		sX = 6 * (c - 'A');
+		sY = 0;
+	}
+	if (c >= 'a' && c <= 'z') {
+		sX = 6 * (c - 'a');
+		sY = 16;
+	}
+	if (c >= '0' && c <= '9') {
+		sX = 6 * (c - '0');
+		sY = 32;
+	}
+	if (c == 'i' || c == 't' || c == 'l') {
+		sW = 3;
+	}
+	if (c == 'j' || c == 'k' || c == 'f') {
+		sW = 4;
+	}
+	if (c == ' ') {
+		drawChar = false;
+	}
+}
+
+int measureText(std::string text, float scale = 1) {
+	int sX, sY, sW;
+	int size = 0;
+	bool printChar = true;
+	for (char& c : text) {
+		charInfo(c, sX, sY, sW, printChar);
+		size += sW + 1;
+	}
+	return ((size - 1) * scale);
+
+
+void print(std::string text, int x, int y, sf::Color color = UI_WHITE, int scale = 1, bool rightAlign = false) {
+	int dX = x;
+	int dY = y;
+	if (rightAlign) {
+		dX -= measureText(text);
+	}
+	for (char c : text) {
+		bool drawChar = true;
+		int sX = 0;
+		int sY = 0;
+		int sW = 6;
+
+		charInfo(c, sX, sY, sW, drawChar);
+
+		if (drawChar) {
+			drawSprite(sX, sY, 5, 8, dX, dY, color, scale, scale);
+		}
+		dX += (sW + 1) * scale;
+	}
 }
