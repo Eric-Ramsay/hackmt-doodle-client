@@ -8,7 +8,13 @@ CXXFLAGS += -DCPPHTTPLIB_OPENSSL_SUPPORT
 
 LDLIBS   = -lssl -lcrypto
 
-PKG_CONFIG = pkg-config
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+  PKG_CONFIG = /opt/homebrew/bin/pkg-config
+else
+  PKG_CONFIG = pkg-config
+endif
 
 .PHONY: all clean
 
