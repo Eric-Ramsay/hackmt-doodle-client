@@ -2,7 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <vector>
 
 #include "globals.h"
@@ -11,6 +11,13 @@
 #include "httplib.h"
 
 int main() {
+	// HTTPS
+	httplib::Client cli("https://www.google.com");
+
+	if (auto res = cli.Get("/")) {
+		res->status;
+		res->body;
+	}
 
 	const int WIDTH = 640;
 	const int HEIGHT = 360;
@@ -53,7 +60,7 @@ int main() {
 
 		drawSprite(0, 0, 16, 16, 1, 1);
 
-		fillShape(Point(30, 30), Point(30, 30), Point(50                                                                         , 50), Point(50, 50), sf::Color::Red);
+		fillShape(Point(30, 30), Point(30, 50), Point(50, 30), Point(50, 50), sf::Color::Red);
 
 		if (numVertices > 0) {
 			texture.draw(&vertices[0], numVertices, sf::Triangles, &spriteSheet);
