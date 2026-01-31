@@ -11,7 +11,9 @@
 #include "globals.h"
 #include "text.h"
 #include "draw.h"
+#include "print.h"
 #include "UI.h"
+#include "events.h"
 
 int main() {
 	// HTTPS
@@ -43,7 +45,23 @@ int main() {
 
 	vertices.resize(vertSize);
 
+	float FPS = 0;
+	auto clock = sf::Clock{};
+	float elapsedTime = 0;
+	float targetTime = 1.0f / 60.0f;
 	while (window.isOpen()) {
+		if (eventInfo.timer % 5 == 0) {
+			FPS = 1.f / clock.getElapsedTime().asSeconds();
+		}
+		elapsedTime += clock.getElapsedTime().asSeconds();
+		clock.restart();
+		if (elapsedTime >= targetTime) {
+			elapsedTime -= targetTime;
+			eventInfo.timer++;
+			if (eventInfo.timer == 101) {
+				eventInfo.timer = 0;
+			}
+		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		if (numVertices > vertSize) {
@@ -52,64 +70,14 @@ int main() {
 			std::cout << "Increasing the size of the vertex buffer!" << std::endl;
 		}
 
-		eventInfo.mouseX = sf::Mouse::getPosition().x / SCALE_X;
-		eventInfo.mouseY = sf::Mouse::getPosition().y / SCALE_Y;
-		eventInfo.mouseUp = false;
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
-				window.close();
-			}
-			else if (event.type == sf::Event::LostFocus) {
-				eventInfo.inGame = false;
-			}
-			else if (event.type == sf::Event::GainedFocus) {
-				eventInfo.inGame = true;
-			}
-			if (eventInfo.inGame) {
-				if (event.type == sf::Event::MouseButtonPressed) {
-					if (event.mouseButton.button == sf::Mouse::Left) {
-						eventInfo.mouseDown = true;
-					}
-				}
-				if (event.type == sf::Event::MouseButtonReleased) {
-					if (event.mouseButton.button == sf::Mouse::Left) {
-						eventInfo.mouseDown = false;
-						eventInfo.mouseUp = true;
-					}
-				}
-				if (event.type == sf::Event::KeyPressed) {
-					int keyCode = (int)event.key.code;
-					char c = 0;
-
-					if (keyCode >= sf::Keyboard::A && keyCode <= sf::Keyboard::Z) {
-						char add = 'a';
-						if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-							add = 'A';
-						}
-						c = add + (keyCode - (int)sf::Keyboard::A);
-					}
-					else if (keyCode >= sf::Keyboard::Num0 && keyCode <= sf::Keyboard::Num9) {
-						c = (char)(keyCode - sf::Keyboard::Num0 + '0');
-					}
-					else if (keyCode == sf::Keyboard::Space) {
-						c = (char)(keyCode - sf::Keyboard::Space + ' ');
-					}
-					else if (event.key.code == sf::Keyboard::Backspace) {
-						if (eventInfo.guess.size() > 0) {
-							eventInfo.guess.pop_back();
-						}
-					}
-					if (c != 0 && eventInfo.guess.size() < 25) {
-						eventInfo.guess += c;
-					}
-				}
-			}
-		}
+		handleEvents(&window);
 		
 		texture.clear(UI_BACKGROUND);
 
 		drawUI();
+
+		print(to_str((int)FPS), 10, 200);
+		print(to_str(eventInfo.timer), 10, 210);
 
 		if (numVertices > 0) {
 			texture.draw(&vertices[0], numVertices, sf::Triangles, &spriteSheet);

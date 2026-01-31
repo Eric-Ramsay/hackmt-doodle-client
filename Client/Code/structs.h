@@ -27,6 +27,7 @@ struct EventInfo {
 	bool mouseUp;
 
 	int tool = PENCIL;
+	int timer = 0;
 
 	bool inGame = true;
 

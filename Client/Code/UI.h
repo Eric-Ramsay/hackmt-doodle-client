@@ -23,8 +23,9 @@ void drawGuessSection() {
 	x += 2;
 	y += 2;
 
-	Box textBox = drawSection(x + 2, y + HEIGHT - 30, w - 8, 20);
+	Box textBox = drawSection(x + 2, y + HEIGHT - 25, w - 8, 15);
 	print(eventInfo.guess, textBox.x + 4, textBox.y + 4);
+	print(to_str(eventInfo.guess.size()), textBox.x + textBox.w - 4, textBox.y + 4, UI_WHITE, 1, true);
 }
 
 void drawCanvasSection() {

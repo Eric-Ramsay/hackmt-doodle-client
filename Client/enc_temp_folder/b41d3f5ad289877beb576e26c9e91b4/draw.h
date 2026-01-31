@@ -56,12 +56,6 @@ Box drawSection(int x, int y, int w, int h, sf::Color border = UI_WHITE, sf::Col
 	return Box(x, y, w, h);
 }
 
-void drawLine(Point a, Point b, int width, sf::Color color) {
-	Point vector(b.x - a.x, b.y - a.y);
-	Point perpendicular(vector.y, -vector.x);
+void drawLine(int x, int y, int width, sf::Color color) {
 
-	int length = std::sqrt(perpendicular.x * perpendicular.x + perpendicular.y * perpendicular.y);
-	Point normal(perpendicular.x / length, perpendicular.y / length);
-	
-	//Point topLeft(a.x + n.x * width / 2);
 }
