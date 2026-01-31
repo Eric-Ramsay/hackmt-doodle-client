@@ -1,3 +1,4 @@
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -7,8 +8,10 @@
 #include "globals.h"
 #include "structs.h"
 #include "draw.h"
+#include "httplib.h"
 
 int main() {
+
 	const int WIDTH = 640;
 	const int HEIGHT = 360;
 
