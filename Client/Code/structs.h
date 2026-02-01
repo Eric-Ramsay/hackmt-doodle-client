@@ -63,3 +63,9 @@ struct GameState {
 	std::string drawingId;
 	std::vector<Action> actions;
 };
+
+struct playerData {
+	nlohmann::json playerName;
+	int clientId;
+	int clientScore;
+}

@@ -8,3 +8,4 @@ const int WIDTH = 640;
 const int HEIGHT = 360;
 
 EventInfo eventInfo;
+playerData player;
