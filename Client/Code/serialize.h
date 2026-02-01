@@ -41,4 +41,20 @@ namespace nlohmann {
             j.at("color").get_to(a.color);
         }
     };
+
+    template <>
+    struct adl_serializer<Message> {
+        static void to_json(json& j, const Message& a) {
+            j = json{
+                {"success", a.success},
+                {"text", a.text},
+                {"id", a.id}
+            };
+        }
+        static void from_json(const json& j, Message& a) {
+            j.at("succes").get_to(a.success);
+            j.at("text").get_to(a.text);
+            j.at("id").get_to(a.id);
+        }
+    };
 }

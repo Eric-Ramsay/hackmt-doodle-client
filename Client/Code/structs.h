@@ -73,7 +73,7 @@ struct Action {
 };
 
 struct Message {
-	bool succes;
+	bool success;
 	std::string text = "";
 	int id;
 };

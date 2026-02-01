@@ -103,7 +103,7 @@ void drawGuessSection() {
 
 	int numGuesses = min(gameState.messages.size(), 15);
 	for (int i = 0; i < numGuesses; i++) {
-		if (gameState.messages[i].succes) {
+		if (gameState.messages[i].success) {
 			print(to_str(gameState.messages[i].id) + " guessed the word", x + w/2, y + HEIGHT - (35 + i * 15), getColor("green"), 1, CENTER);
 		}
 		else {
@@ -145,10 +145,9 @@ void drawCanvasSection() {
 			}
 		}
 		drawCursor(Point(eventInfo.mouseX, eventInfo.mouseY), eventInfo.cursorSize, getColor(eventInfo.color));
+		drawSection(x + 2, y + 2 + 3 * 22, 20, 20, UI_WHITE, UI_WHITE);
+		fillRect(x + 3, y + 3 + 3 * 22, 18, 18, getColor(eventInfo.color));
 	}
-
-	drawSection(x + 2, y + 2 + 3 * 22, 20, 20, UI_WHITE, UI_WHITE);
-	fillRect(x + 3, y + 3 + 3 * 22, 18, 18, getColor(eventInfo.color));
 
 	int size = actions.size();
 

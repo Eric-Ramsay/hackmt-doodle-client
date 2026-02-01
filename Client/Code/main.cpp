@@ -54,22 +54,39 @@ int main() {
 			eventInfo.timer++;
 			if (eventInfo.timer == 101) {
 				eventInfo.timer = 0;
-				httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
-				auto stateResponse = cli.Get("/players/getgamestate/");
-				nlohmann::json gameData = nlohmann::json::parse(stateResponse->body);
+				if (drawing != ENTER_NAME) {
+					httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
+					auto stateResponse = cli.Get("/players/getgamestate/" + to_str(gameState.id) + "/" + to_str(gameState.actions.size()) + "/" + to_str(gameState.messages.size()));
+					nlohmann::json gameData = nlohmann::json::parse(stateResponse->body);
 
-				int round = gameData["RoundNumber"];
-				if (round != gameState.round) {
-					auto transitionResponse = cli.Get("/state/transition");
-					nlohmann::json transitionData = nlohmann::json::parse(transitionResponse->body);
+					int round = gameData["roundNumber"];
+					if (round != gameState.round) {
+						auto transitionResponse = cli.Get("/state/transition");
+						nlohmann::json transitionData = nlohmann::json::parse(transitionResponse->body);
 
+						gameState.drawingId = transitionData["drawerID"];
+						gameState.wordOptions = transitionData["chosenWords"];
 
-					gameState.round = round;
+						if (gameState.wordOptions.size() > 0) {
+							drawing = PICK_WORD;
+						}
+
+						gameState.round = round;
+					}
+
+					gameState.currentWord = gameData["word"];
+
+					std::vector<Message> messages = gameData["newMessages"];
+					auto actionList = gameData["newActions"];
+
+					for (auto msg : messages) {
+						gameState.messages.push_back(msg);
+					}
+
+					//for (Action action : actionList) {
+					//	gameState.actions.push_back(action);
+					//}
 				}
-
-				gameState.currentWord = gameData["Word"];
-				gameState.drawingId = gameData["drawerID"];
-				
 			}
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
