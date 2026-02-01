@@ -34,7 +34,7 @@ void drawOnCanvas() {
 					httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 					//auto drawRequest = cli.Post("/players/send-drawing-data/", actionsJson.dump(), "application/json");
 
-					actions = {};
+					//actions = {};
 					// Set actions to empty
 				}
 
