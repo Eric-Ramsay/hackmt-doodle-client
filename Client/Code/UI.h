@@ -28,7 +28,13 @@ void drawOnCanvas() {
 
 				if (actions.size() > 25) {
 					// Send actions to the server
+					nlohmann::json actionsJson;
+					actionsJson["actions"] = actions;
 
+					httplib::Client cli("http://localhost:5062");
+					auto drawRequest = cli.Post("/players/send-drawing-data/", actionsJson.dump(), "application/json");
+
+					actions = {};
 					// Set actions to empty
 				}
 
