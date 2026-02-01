@@ -1,6 +1,5 @@
 #pragma once
 
-
 void handleEvents(sf::RenderWindow* window) {
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
@@ -27,6 +26,7 @@ void handleEvents(sf::RenderWindow* window) {
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					eventInfo.mouseDown = true;
+					checkDraw(true);	
 				}
 			}
 			if (event.type == sf::Event::MouseButtonReleased) {

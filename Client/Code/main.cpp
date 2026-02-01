@@ -95,8 +95,8 @@ int main() {
 		texture.clear(UI_BACKGROUND);
 
 		drawUI();
-
-		drawLine(Point(90, 90), Point(eventInfo.mouseX, eventInfo.mouseY), 12, sf::Color::Red);
+		
+		//drawLine(Point(90, 90), Point(eventInfo.mouseX, eventInfo.mouseY), 12, sf::Color::Red);
 
 		print(to_str((int)FPS), 10, 200);
 		print(to_str(eventInfo.timer), 10, 210);

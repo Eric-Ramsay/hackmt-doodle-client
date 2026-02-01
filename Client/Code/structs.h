@@ -43,6 +43,10 @@ struct Point {
 		x = x1;
 		y = y1;
 	}
+	Point() {
+		x = 0;
+		y = 0;
+	}
 };
 
 struct Line {

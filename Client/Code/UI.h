@@ -1,5 +1,44 @@
 #pragma once
 
+void checkDraw(bool newDraw)
+{
+	Action newAction;
+	int prevX = 0;
+	int prevY = 0;
+
+	if (actions.size() != 0)
+	{
+		prevX = actions[actions.size()].line.b.x;
+		prevY = actions[actions.size()].line.b.y;
+	}
+
+	if (eventInfo.mouseDown == true &&
+		eventInfo.mouseX > CANVAS_X && 
+			eventInfo.mouseX < CANVAS_W && 
+			eventInfo.mouseY > CANVAS_Y && 
+			eventInfo.mouseY < CANVAS_H) {
+		//points.push_back(Point(eventInfo.mouseX, eventInfo.mouseY));
+		if (newDraw || (prevX != 0 && prevY != 0))
+		{
+			if (newDraw && actions.size() != 0 && (actions[actions.size()].line.b.x == 0 || actions[actions.size()].line.b.y == 0) ) {
+				actions.pop_back();
+			}
+			newAction.line.a.x = eventInfo.mouseX;
+			newAction.line.a.y = eventInfo.mouseY;
+			newAction.width = 12;
+			newAction.color = "Green";
+			actions.push_back(newAction);
+		}
+		else if ( prevX < eventInfo.mouseX - 5 || 
+			 	  prevX > eventInfo.mouseX + 5 || 
+				  prevY < eventInfo.mouseY - 5 || 
+				  prevY > eventInfo.mouseY + 5 ) {
+			actions[actions.size()].line.b.x = eventInfo.mouseX;
+			actions[actions.size()].line.b.y = eventInfo.mouseY;
+		}
+	}
+}
+
 bool inRange(Box box) {
 	if (eventInfo.mouseX >= box.x && eventInfo.mouseX <= box.x + box.w) {
 		if (eventInfo.mouseY >= box.y && eventInfo.mouseY <= box.y + box.h) {
@@ -29,14 +68,9 @@ void drawGuessSection() {
 }
 
 void drawCanvasSection() {
-	int x = 2;
-	int y = 2;
-	int w = 400;
-	int h = HEIGHT - 4;
-	drawSection(x, y, w, h, UI_WHITE, UI_BACKGROUND, 2);
-
-	x += 2;
-	y += 2;
+	int x = CANVAS_X + 2;
+	int y = CANVAS_Y + 2;
+	drawSection(CANVAS_X, CANVAS_Y, CANVAS_W, CANVAS_H, UI_WHITE, UI_BACKGROUND, 2);
 
 	// Draw Tools
 	for (int i = 0; i < 3; i++) {
@@ -51,6 +85,20 @@ void drawCanvasSection() {
 				eventInfo.tool = i;
 			}
 		}
+	}
+	checkDraw(false);
+	int size = actions.size();
+	for(int i = 0; i < size; i++){
+		if (size == 0 )
+		{
+			break;
+		}
+		else if (i+1 == size && (actions[i].line.b.x == 0 || actions[i].line.b.y == 0))
+		{
+			break;
+		}
+
+		drawLine(actions[i].line.a, actions[i].line.b, actions[i].width, sf::Color::Green);
 	}
 }
 
