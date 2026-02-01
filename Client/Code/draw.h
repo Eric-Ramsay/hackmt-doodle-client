@@ -97,11 +97,9 @@ void drawLine(Point a, Point b, int thickness, sf::Color color) {
 	Point p3(b.x + xS, b.y - yS);
 	Point p4(b.x - xS, b.y + yS);
 
-	//print(to_str(p1.x) + " " + to_str(p1.y) + " " + to_str(p2.x) + " " + to_str(p2.y) + " " + to_str(p3.x) + " " + to_str(p3.y) + " " + to_str(p4.x) + " " + to_str(p4.y), 200, 200);
-	//fillRect(p1.x, p1.y, 4, 4, sf::Color::Green);
-	//fillRect(p2.x, p2.y, 4, 4, sf::Color::Green);
-	//fillRect(p3.x, p3.y, 4, 4, sf::Color::Green);
-	//fillRect(p4.x, p4.y, 4, 4, sf::Color::Green);
-
 	fillShape(p2, p1, p3, p4, color);
+}
+
+void drawCursor(Point p, int w, sf::Color color) {
+	drawSprite((w - 2) * 16, 96, w, w, p.x - w / 2, p.y - w / 2, color);
 }

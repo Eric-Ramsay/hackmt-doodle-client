@@ -1,15 +1,11 @@
 #pragma once
 
-#include "structs.h"
-#include "json.hpp"
-
-// Namespace functions for automatic JSON conversion
 namespace nlohmann {
     using json = nlohmann::json;
     template <>
     struct adl_serializer<Point> {
         static void to_json(json& j, const Point& p) {
-            j = json{{"x", p.x}, {"y", p.y}};
+            j = json{ {"x", p.x}, {"y", p.y} };
         }
         static void from_json(const json& j, Point& p) {
             j.at("x").get_to(p.x);
@@ -20,7 +16,7 @@ namespace nlohmann {
     template <>
     struct adl_serializer<Line> {
         static void to_json(json& j, const Line& l) {
-            j = json{{"a", l.a}, {"b", l.b}};
+            j = json{ {"a", l.a}, {"b", l.b} };
         }
         static void from_json(const json& j, Line& l) {
             j.at("a").get_to(l.a);
