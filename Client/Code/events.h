@@ -62,9 +62,19 @@ void handleEvents(sf::RenderWindow* window) {
 						eventInfo.guess.pop_back();
 					}
 				}
+
 				// @chandler mccook
 				// if event key code is enter and guess isn't empty,
 				//perform a post
+				else if (event.key.code == sf::Keyboard::Enter) {
+					if (eventInfo.guess.size() > 0) {
+						// get user id
+						//	-get from globals thing
+						//get guess
+						// can do that right now
+						// send post request
+					}
+				}
 				/*httplib::Client cli("http://localhost:5062");
 
 				nlohmann::json j;
