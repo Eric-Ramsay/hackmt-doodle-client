@@ -71,9 +71,6 @@ void handleEvents(sf::RenderWindow* window) {
 						eventInfo.guess.pop_back();
 					}
 				}
-				// @chandler mccook
-				// if event key code is enter and guess isn't empty,
-				//perform a post
 				if (event.key.code == sf::Keyboard::Enter && eventInfo.guess != "")
 				{
 					if (drawing == DRAW_UI) {

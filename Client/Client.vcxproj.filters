@@ -44,5 +44,8 @@
     <ClInclude Include="Code\print.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Code\serialize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
