@@ -103,11 +103,12 @@ void drawGuessSection() {
 
 	int numGuesses = min(gameState.messages.size(), 15);
 	for (int i = 0; i < numGuesses; i++) {
-		if (gameState.messages[i].success) {
-			print(to_str(gameState.messages[i].id) + " guessed the word", x + w/2, y + HEIGHT - (35 + i * 15), getColor("green"), 1, CENTER);
+		int index = gameState.messages.size() - (i + 1);
+		if (gameState.messages[index].success) {
+			print(to_str(gameState.messages[index].id) + " guessed the word", x + w/2, y + HEIGHT - (35 + i * 15), getColor("green"), 1, CENTER);
 		}
 		else {
-			print(to_str(gameState.messages[i].id) + "  " + gameState.messages[i].text, x + 2, y + HEIGHT - (35 + i * 15));
+			print(to_str(gameState.messages[index].id) + "  " + gameState.messages[index].text, x + 2, y + HEIGHT - (35 + i * 15));
 		}
 	}
 }

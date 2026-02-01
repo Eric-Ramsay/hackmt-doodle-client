@@ -77,8 +77,7 @@ void handleEvents(sf::RenderWindow* window) {
 						httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 
 						nlohmann::json sendGuess;
-						std::string guess;
-						sendGuess["guess"] = guess;
+						sendGuess["guess"] = eventInfo.guess;
 
 						auto guessResult = cli.Post("/players/guess/" + gameState.id, sendGuess.dump(), "application/json");
 
@@ -87,7 +86,7 @@ void handleEvents(sf::RenderWindow* window) {
 					else if (drawing == ENTER_NAME) {
 						httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 						nlohmann::json playerName;
-						playerName["name"] = "test";
+						playerName["name"] = eventInfo.guess;
 
 						auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
 

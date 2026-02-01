@@ -52,7 +52,7 @@ int main() {
 		if (elapsedTime >= targetTime) {
 			elapsedTime -= targetTime;
 			eventInfo.timer++;
-			if (eventInfo.timer == 101) {
+			if (eventInfo.timer == 30) {
 				eventInfo.timer = 0;
 				if (drawing != ENTER_NAME) {
 					httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
