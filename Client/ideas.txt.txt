@@ -1,0 +1,13 @@
+- Brush Selector
+- Color Selector
+- Ask Name before connected
+- Flood Bucket that sets background
+- Eraser tool takes the background
+
+- Add UI for round #, timer, word, & score
+
+- Add initial Connect POST in main()
+- Add brush Patch in draw in UI
+- Add continuous GET
+- Add Get end of round info
+- Add POST request when Enter Key is pressed

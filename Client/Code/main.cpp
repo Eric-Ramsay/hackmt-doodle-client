@@ -17,30 +17,6 @@
 #include "events.h"
 
 int main() {
-	// HTTPS
-	httplib::Client cli("http://localhost:5062");
-
-	nlohmann::json j;
-	std::string name;
-	std::cout << "Player Name: ";
-	std::cin >> name;
-	j["name"] = name;
-	
-	auto res = cli.Post("/players", j.dump(), "application/json");
-	
-	if (res){
-		if (res->status == 200){
-			std::cout << "Success!\n";
-		} else {
-			std::cout << "Res->status:";
-		}
-	} else {
-		std::cout << "failed to send\n";
-		std::cout << "Res status: " << res->status << "\n";
-		std::cout << "Error code: " << (int)res.error() << "\n";
-	}
-	std::cout << "Waiting, input string: ";
-	std::cin >> name;
 
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
@@ -95,7 +71,9 @@ int main() {
 
 		drawUI();
 
-		drawLine(Point(90, 90), Point(eventInfo.mouseX, eventInfo.mouseY), 12, sf::Color::Red);
+		drawCursor(Point(eventInfo.mouseX, eventInfo.mouseY), eventInfo.cursorSize, getColor(eventInfo.color));
+		
+		//drawLine(Point(90, 90), Point(eventInfo.mouseX, eventInfo.mouseY), 12, sf::Color::Red);
 
 		print(to_str((int)FPS), 10, 200);
 		print(to_str(eventInfo.timer), 10, 210);

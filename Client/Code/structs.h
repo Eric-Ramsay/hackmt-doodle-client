@@ -16,8 +16,8 @@ struct Box {
 
 enum TOOL {
 	PENCIL,
-	BUCKET,
-	ERASER
+	ERASER,
+	BUCKET
 };
 
 struct EventInfo {
@@ -26,7 +26,7 @@ struct EventInfo {
 	bool mouseDown;
 	bool mouseUp;
 
-	int tool = PENCIL;
+	TOOL tool = PENCIL;
 	int timer = 0;
 
 	bool inGame = true;
@@ -34,12 +34,16 @@ struct EventInfo {
 	bool capsLock = false;
 
 	std::string guess = "";
+
+	int cursorSize = 3;
+	std::string color = "green";
+	std::string backgroundColor = "blue";
 };
 
 struct Point {
 	int x;
 	int y;
-	Point(int x1, int y1) {
+	Point(int x1 = 0, int y1 = 0) {
 		x = x1;
 		y = y1;
 	}
@@ -48,6 +52,10 @@ struct Point {
 struct Line {
 	Point a;
 	Point b;
+	Line(Point a1 = Point(), Point b1 = Point()) {
+		a = a1;
+		b = b1;
+	}
 };
 
 struct Action {
@@ -55,6 +63,13 @@ struct Action {
 	Line line;
 	int width;
 	std::string color;
+
+	Action(Point a, Point b, int w, TOOL t, std::string c) {
+		line = Line(a, b);
+		width = w;
+		tool = t;
+		color = c;
+	}
 };
 
 struct GameState {

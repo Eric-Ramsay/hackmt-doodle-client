@@ -79,3 +79,27 @@ Box drawSection(int x, int y, int w, int h, sf::Color border = UI_WHITE, sf::Col
 	return Box(x, y, w, h);
 }
 
+void drawLine(Point a, Point b, int thickness, sf::Color color) {
+	int width = b.x - a.x;
+	int height = b.y - a.y;
+
+	int len = std::sqrt(width * width + height * height);
+	
+	if (len == 0) {
+		return;
+	}
+
+	int xS = (thickness * height / len) / 2;
+	int yS = (thickness * width / len) / 2;
+
+	Point p1(a.x - xS, a.y + yS);
+	Point p2(a.x + xS, a.y - yS);
+	Point p3(b.x + xS, b.y - yS);
+	Point p4(b.x - xS, b.y + yS);
+
+	fillShape(p2, p1, p3, p4, color);
+}
+
+void drawCursor(Point p, int w, sf::Color color) {
+	drawSprite((w - 2) * 16, 96, w, w, p.x - w / 2, p.y - w / 2, color);
+}

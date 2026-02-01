@@ -1,6 +1,5 @@
 #pragma once
 
-
 void handleEvents(sf::RenderWindow* window) {
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
@@ -27,12 +26,17 @@ void handleEvents(sf::RenderWindow* window) {
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					eventInfo.mouseDown = true;
+					newDraw = true;
 				}
 			}
 			if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					eventInfo.mouseDown = false;
 					eventInfo.mouseUp = true;
+					newDraw = false;
+					if (actions.size() > 0 && actions[actions.size() - 1].tool != BUCKET && actions[actions.size() - 1].line.b.x == 0 && actions[actions.size() - 1].line.b.y == 0) {
+						actions.pop_back();
+					}
 				}
 			}
 			if (event.type == sf::Event::KeyPressed) {
@@ -52,11 +56,43 @@ void handleEvents(sf::RenderWindow* window) {
 				else if (keyCode == sf::Keyboard::Space) {
 					c = (char)(keyCode - sf::Keyboard::Space + ' ');
 				}
+				else if (keyCode == sf::Keyboard::Up) {
+					if (eventInfo.cursorSize < 12) {
+						eventInfo.cursorSize++;
+					}
+				}
+				else if (keyCode == sf::Keyboard::Down) {
+					if (eventInfo.cursorSize > 3) {
+						eventInfo.cursorSize--;
+					}
+				}
 				else if (event.key.code == sf::Keyboard::Backspace) {
 					if (eventInfo.guess.size() > 0) {
 						eventInfo.guess.pop_back();
 					}
 				}
+				// @chandler mccook
+				// if event key code is enter and guess isn't empty,
+				//perform a post
+				/*httplib::Client cli("http://localhost:5062");
+
+				nlohmann::json j;
+				std::string name;
+				std::cout << "Player Name: ";
+				std::cin >> name;
+				j["name"] = name;
+	
+				auto res = cli.Post("/players", j.dump(), "application/json");
+	
+				if (res){
+					if (res->status == 200){
+						std::cout << "Success!\n";
+					} else {
+						std::cout << "Res->status:";
+					}
+				}
+				*/
+
 				if (c != 0 && eventInfo.guess.size() < 30) {
 					eventInfo.guess += c;
 				}
