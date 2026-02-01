@@ -164,14 +164,18 @@ void drawWordOptions() {
 	print("Pick a word to draw", WIDTH / 2, 30, UI_TEXT, 1, CENTER);
 
 	for (int i = 0; i < gameState.wordOptions.size(); i++) {
-		Box box = drawSection(WIDTH - 50, 50 + 80 * i, 100, 20);
+		Box box = drawSection(WIDTH / 2 - 100, 50 + 80 * i, 200, 20);
 		print(gameState.wordOptions[i], WIDTH / 2, box.y + 4);
 		if (inRange(box)) {
 			// Post word choice
+			nlohmann::json wordChoiceRequest;
+			wordChoiceRequest["clientId"] = "test";
+			wordChoiceRequest["word"] = gameState.wordOptions[i];
 			httplib::Client cli("http://localhost:5062");
-			auto drawRequest = cli.Post("/players/send-drawing-data/");
+			auto drawRequest = cli.Post("/state/word/", wordChoiceRequest.dump(), "application/json");
 
 			drawing = DRAW_UI;
+			gameState.wordOptions = {};
 		}
 	}
 }
