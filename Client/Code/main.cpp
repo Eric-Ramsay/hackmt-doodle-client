@@ -76,12 +76,17 @@ int main() {
 
 					gameState.currentWord = gameData["word"];
 
-					std::vector<Message> messages = gameData["newMessages"];
-					auto actionList = gameData["newActions"];
-
-					for (auto msg : messages) {
-						gameState.messages.push_back(msg);
+					for (auto msg : gameData["newMessages"]) {
+						Message message{
+							msg["correct"].get<bool>(),
+							msg["guess"].get<std::string>(),
+							msg["userId"].get<std::string>(),
+						};
+						message.success = !message.success;
+						gameState.messages.push_back(message);
 					}
+
+					auto actionList = gameData["newActions"];
 
 					//for (Action action : actionList) {
 					//	gameState.actions.push_back(action);

@@ -75,16 +75,16 @@ struct Action {
 struct Message {
 	bool success;
 	std::string text = "";
-	int id;
+	std::string id;
 };
 
 struct GameState {
 	int round;
 	int timeRemaining;
 	int score;
-	int id;
+	std::string id;
 	std::string currentWord = "_________ ______";
-	int drawingId;
+	std::string drawingId;
 	std::vector<Action> actions;
 	std::vector<Message> messages;
 

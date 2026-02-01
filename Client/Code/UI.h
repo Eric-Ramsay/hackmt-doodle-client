@@ -118,36 +118,34 @@ void drawCanvasSection() {
 	int y = CANVAS_Y + 2;
 	drawSection(CANVAS_X, CANVAS_Y, CANVAS_W, CANVAS_H, UI_WHITE, getColor(eventInfo.backgroundColor), 2);
 
-	if (gameState.drawingId == gameState.id) {
-		std::vector<std::string> colors = { "black", "red", "green", "blue", "yellow", "orange", "pink", "brown" };
-		for (int i = 0; i < colors.size(); i++) {
-			Box box = drawSection(x + 2 + i * 20, y + HEIGHT - 28, 18, 18, UI_WHITE, UI_WHITE);
-			fillRect(x + 3 + i * 20, y + HEIGHT - 27, 16, 16, getColor(colors[i]));
-			if (eventInfo.mouseUp && inRange(box)) {
-				eventInfo.color = colors[i];
+	std::vector<std::string> colors = { "black", "red", "green", "blue", "yellow", "orange", "pink", "brown" };
+	for (int i = 0; i < colors.size(); i++) {
+		Box box = drawSection(x + 2 + i * 20, y + HEIGHT - 28, 18, 18, UI_WHITE, UI_WHITE);
+		fillRect(x + 3 + i * 20, y + HEIGHT - 27, 16, 16, getColor(colors[i]));
+		if (eventInfo.mouseUp && inRange(box)) {
+			eventInfo.color = colors[i];
+			buttonClicked = true;
+		}
+	}
+
+	// Draw Tools
+	for (int i = 0; i < 3; i++) {
+		sf::Color color = UI_GREY;
+		if (eventInfo.tool == i) {
+			color = UI_WHITE;
+		}
+		drawSection(x + 2, y + 2 + i * 22, 20, 20, color, getColor(eventInfo.backgroundColor));
+		Box box = drawSprite(16 * i, 48, 16, 16, x + 4, y + 4 + i * 22);
+		if (eventInfo.mouseUp) {
+			if (inRange(box)) {
+				eventInfo.tool = (TOOL)i;
 				buttonClicked = true;
 			}
 		}
-
-		// Draw Tools
-		for (int i = 0; i < 3; i++) {
-			sf::Color color = UI_GREY;
-			if (eventInfo.tool == i) {
-				color = UI_WHITE;
-			}
-			drawSection(x + 2, y + 2 + i * 22, 20, 20, color, getColor(eventInfo.backgroundColor));
-			Box box = drawSprite(16 * i, 48, 16, 16, x + 4, y + 4 + i * 22);
-			if (eventInfo.mouseUp) {
-				if (inRange(box)) {
-					eventInfo.tool = (TOOL)i;
-					buttonClicked = true;
-				}
-			}
-		}
-		drawCursor(Point(eventInfo.mouseX, eventInfo.mouseY), eventInfo.cursorSize, getColor(eventInfo.color));
-		drawSection(x + 2, y + 2 + 3 * 22, 20, 20, UI_WHITE, UI_WHITE);
-		fillRect(x + 3, y + 3 + 3 * 22, 18, 18, getColor(eventInfo.color));
 	}
+	drawCursor(Point(eventInfo.mouseX, eventInfo.mouseY), eventInfo.cursorSize, getColor(eventInfo.color));
+	drawSection(x + 2, y + 2 + 3 * 22, 20, 20, UI_WHITE, UI_WHITE);
+	fillRect(x + 3, y + 3 + 3 * 22, 18, 18, getColor(eventInfo.color));
 
 	int size = actions.size();
 
