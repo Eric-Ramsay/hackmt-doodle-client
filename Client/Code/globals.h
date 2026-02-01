@@ -20,4 +20,4 @@ bool newDraw = false;
 
 GameState gameState;
 
-UI_STATE drawing = DRAW_UI;
+UI_STATE drawing = ENTER_NAME;

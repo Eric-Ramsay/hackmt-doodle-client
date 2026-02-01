@@ -87,6 +87,8 @@ struct GameState {
 	int drawingId;
 	std::vector<Action> actions;
 	std::vector<Message> messages;
+
+	std::vector<std::string> wordOptions = {};
 };
 
 int min(int a, int b) {

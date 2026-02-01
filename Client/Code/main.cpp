@@ -18,19 +18,6 @@
 #include "events.h"
 
 int main() {
-
-	httplib::Client cli("http://localhost:5062");
-	nlohmann::json playerName;
-	playerName["name"] = "test";
-
-	//auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
-
-	//if (nameResponse) {
-	//	auto jsonResponse = nlohmann::json::parse(nameResponse->body);
-	//	int clientId = jsonResponse["clientId"];
-	//	gameState.id = clientId;
-	//}
-
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
 	const int SCREEN_H = sf::VideoMode::getDesktopMode().height;
 	
@@ -83,13 +70,8 @@ int main() {
 		texture.clear(UI_BACKGROUND);
 
 		drawUI();
-
-		drawCursor(Point(eventInfo.mouseX, eventInfo.mouseY), eventInfo.cursorSize, getColor(eventInfo.color));
 		
 		//drawLine(Point(90, 90), Point(eventInfo.mouseX, eventInfo.mouseY), 12, sf::Color::Red);
-
-		print(to_str((int)FPS), 10, 200);
-		print(to_str(eventInfo.timer), 10, 210);
 
 		if (numVertices > 0) {
 			texture.draw(&vertices[0], numVertices, sf::Triangles, &spriteSheet);

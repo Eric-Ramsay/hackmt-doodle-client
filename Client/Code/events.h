@@ -76,15 +76,35 @@ void handleEvents(sf::RenderWindow* window) {
 				//perform a post
 				if (event.key.code == sf::Keyboard::Enter && eventInfo.guess != "")
 				{
-					httplib::Client cli("http://localhost:5062");
+					if (drawing == DRAW_UI) {
+						httplib::Client cli("http://localhost:5062");
 
-					nlohmann::json sendGuess;
-					std::string guess;
-					sendGuess["guess"] = guess;
-					
-					auto guessResult = cli.Post("/players/guess/", sendGuess.dump(), "application/json");
-	
+						nlohmann::json sendGuess;
+						std::string guess;
+						sendGuess["guess"] = guess;
 
+						auto guessResult = cli.Post("/players/guess/", sendGuess.dump(), "application/json");
+
+						eventInfo.guess = "";
+					}
+					else if (drawing == ENTER_NAME) {
+						httplib::Client cli("http://localhost:5062");
+						nlohmann::json playerName;
+						playerName["name"] = "test";
+
+						auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
+
+						if (nameResponse) {
+							auto jsonResponse = nlohmann::json::parse(nameResponse->body);
+							int clientId = jsonResponse["clientId"];
+							gameState.id = clientId;
+						}
+
+						eventInfo.guess = "";
+						drawing = DRAW_UI;
+					}
+
+				}
 				if (c != 0 && eventInfo.guess.size() < 30) {
 					eventInfo.guess += c;
 				}

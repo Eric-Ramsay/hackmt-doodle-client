@@ -144,6 +144,7 @@ void drawCanvasSection() {
 				}
 			}
 		}
+		drawCursor(Point(eventInfo.mouseX, eventInfo.mouseY), eventInfo.cursorSize, getColor(eventInfo.color));
 	}
 
 	drawSection(x + 2, y + 2 + 3 * 22, 20, 20, UI_WHITE, UI_WHITE);
@@ -159,6 +160,29 @@ void drawCanvasSection() {
 	drawCanvas(gameState.actions);
 }
 
+void drawWordOptions() {
+	print("Pick a word to draw", WIDTH / 2, 30, UI_TEXT, 1, CENTER);
+
+	for (int i = 0; i < gameState.wordOptions.size(); i++) {
+		Box box = drawSection(WIDTH - 50, 50 + 80 * i, 100, 20);
+		print(gameState.wordOptions[i], WIDTH / 2, box.y + 4);
+		if (inRange(box)) {
+			// Post word choice
+			httplib::Client cli("http://localhost:5062");
+			auto drawRequest = cli.Post("/players/send-drawing-data/");
+
+			drawing = DRAW_UI;
+		}
+	}
+}
+
+void drawEnterName() {
+	print("Please Enter your Name", WIDTH / 2, 150, UI_TEXT, 1, CENTER);
+
+	Box box = drawSection(WIDTH / 2 - 100, 170, 200, 20);
+	print(eventInfo.guess, WIDTH / 2, box.y + 6, UI_TEXT, 1, CENTER);
+}
+
 void drawUI() {
 
 	if (drawing == DRAW_UI) {
@@ -167,10 +191,10 @@ void drawUI() {
 		drawWordSection();
 	}
 	else if (drawing == ENTER_NAME) {
-
+		drawEnterName();
 	}
 	else if (drawing == PICK_WORD) {
-
+		drawWordOptions();
 	}
 }
 
