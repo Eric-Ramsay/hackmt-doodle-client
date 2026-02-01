@@ -164,8 +164,8 @@ void drawWordOptions() {
 
 	for (int i = 0; i < gameState.wordOptions.size(); i++) {
 		Box box = drawSection(WIDTH / 2 - 100, 50 + 80 * i, 200, 20);
-		print(gameState.wordOptions[i], WIDTH / 2, box.y + 4);
-		if (inRange(box)) {
+		print(gameState.wordOptions[i], WIDTH / 2, box.y + 6, UI_TEXT, 1, CENTER);
+		if (inRange(box) && eventInfo.mouseUp) {
 			// Post word choice
 			nlohmann::json wordChoiceRequest;
 			wordChoiceRequest["clientId"] = "test";

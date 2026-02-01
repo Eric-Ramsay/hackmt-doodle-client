@@ -64,7 +64,7 @@ int main() {
 						auto transitionResponse = cli.Get("/state/transition");
 						nlohmann::json transitionData = nlohmann::json::parse(transitionResponse->body);
 
-						gameState.drawingId = transitionData["drawerID"];
+						gameState.drawingId = transitionData["drawerId"];
 						gameState.wordOptions = transitionData["chosenWords"];
 
 						if (gameState.wordOptions.size() > 0) {
