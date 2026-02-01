@@ -3,13 +3,14 @@
 void checkDraw(bool newDraw)
 {
 	Action newAction;
+	int size = actions.size() - 1;
 	int prevX = 0;
 	int prevY = 0;
 
 	if (actions.size() != 0)
 	{
-		prevX = actions[actions.size()].line.b.x;
-		prevY = actions[actions.size()].line.b.y;
+		prevX = actions[size].line.b.x;
+		prevY = actions[size].line.b.y;
 	}
 
 	if (eventInfo.mouseDown == true &&
@@ -20,7 +21,7 @@ void checkDraw(bool newDraw)
 		//points.push_back(Point(eventInfo.mouseX, eventInfo.mouseY));
 		if (newDraw || (prevX != 0 && prevY != 0))
 		{
-			if (newDraw && actions.size() != 0 && (actions[actions.size()].line.b.x == 0 || actions[actions.size()].line.b.y == 0) ) {
+			if (newDraw && actions.size() != 0 && (actions[size].line.b.x == 0 || actions[size].line.b.y == 0) ) {
 				actions.pop_back();
 			}
 			newAction.line.a.x = eventInfo.mouseX;
@@ -33,8 +34,8 @@ void checkDraw(bool newDraw)
 			 	  prevX > eventInfo.mouseX + 5 || 
 				  prevY < eventInfo.mouseY - 5 || 
 				  prevY > eventInfo.mouseY + 5 ) {
-			actions[actions.size()].line.b.x = eventInfo.mouseX;
-			actions[actions.size()].line.b.y = eventInfo.mouseY;
+			actions[size].line.b.x = eventInfo.mouseX;
+			actions[size].line.b.y = eventInfo.mouseY;
 		}
 	}
 }
@@ -97,6 +98,8 @@ void drawCanvasSection() {
 		{
 			break;
 		}
+
+		//std::cout << i << " " << actions[i].line.a.x << " " << actions[i].line.b.x << std::endl;
 
 		drawLine(actions[i].line.a, actions[i].line.b, actions[i].width, sf::Color::Green);
 	}
