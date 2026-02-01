@@ -19,6 +19,14 @@
 
 int main() {
 
+	httplib::Client cli("http://localhost:5062");
+	nlohmann::json playerName;
+	playerName["name"] = "test";
+	
+	auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
+
+	auto jsonResponse = nlohmann::json::parse(nameResponse->body);
+	int clientId = jsonResponse["clientId"];
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
 	const int SCREEN_H = sf::VideoMode::getDesktopMode().height;
