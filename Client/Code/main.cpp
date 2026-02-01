@@ -70,6 +70,8 @@ int main() {
 		texture.clear(UI_BACKGROUND);
 
 		drawUI();
+
+		drawCursor(Point(eventInfo.mouseX, eventInfo.mouseY), eventInfo.cursorSize, getColor(eventInfo.color));
 		
 		//drawLine(Point(90, 90), Point(eventInfo.mouseX, eventInfo.mouseY), 12, sf::Color::Red);
 

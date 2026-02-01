@@ -26,16 +26,15 @@ void handleEvents(sf::RenderWindow* window) {
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					eventInfo.mouseDown = true;
-					if (inRange(Box(CANVAS_X, CANVAS_Y, CANVAS_W, CANVAS_H))) {
-						actions.push_back(Action(Point(eventInfo.mouseX, eventInfo.mouseY), Point(), 12, PENCIL, "green"));
-					}
+					newDraw = true;
 				}
 			}
 			if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					eventInfo.mouseDown = false;
 					eventInfo.mouseUp = true;
-					if (actions.size() != 0 && (actions[actions.size() - 1].line.b.x == 0 || actions[actions.size() - 1].line.b.y == 0)) {
+					newDraw = false;
+					if (actions.size() > 0 && actions[actions.size() - 1].tool != BUCKET && actions[actions.size() - 1].line.b.x == 0 && actions[actions.size() - 1].line.b.y == 0) {
 						actions.pop_back();
 					}
 				}
@@ -56,6 +55,16 @@ void handleEvents(sf::RenderWindow* window) {
 				}
 				else if (keyCode == sf::Keyboard::Space) {
 					c = (char)(keyCode - sf::Keyboard::Space + ' ');
+				}
+				else if (keyCode == sf::Keyboard::Up) {
+					if (eventInfo.cursorSize < 12) {
+						eventInfo.cursorSize++;
+					}
+				}
+				else if (keyCode == sf::Keyboard::Down) {
+					if (eventInfo.cursorSize > 3) {
+						eventInfo.cursorSize--;
+					}
 				}
 				else if (event.key.code == sf::Keyboard::Backspace) {
 					if (eventInfo.guess.size() > 0) {

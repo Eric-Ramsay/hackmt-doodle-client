@@ -15,3 +15,5 @@ const int CANVAS_H = HEIGHT - 4;
 
 
 EventInfo eventInfo;
+
+bool newDraw = false;
