@@ -61,7 +61,5 @@ void drawUI() {
 
 	print("X " + to_str(eventInfo.mouseX), 200, 100, UI_WHITE);
 	print("Y " + to_str(eventInfo.mouseY), 200, 110, sf::Color::Green);
-
-	fillShape(Point(30, 30), Point(30, 50), Point(50, 30), Point(50, 50), sf::Color::Red);
 }
 

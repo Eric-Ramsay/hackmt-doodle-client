@@ -58,3 +58,37 @@ void print(std::string text, int x, int y, sf::Color color = UI_TEXT, int scale 
 		dX += (sW + 1) * scale;
 	}
 }
+
+void drawLine(Point a, Point b, int thickness, sf::Color color) {
+	int width = b.x - a.x;
+	int height = b.y - a.y;
+
+	int len = std::sqrt(width * width + height * height);
+
+	int xS = (thickness * height / len) / 2;
+	int yS = (thickness * width / len) / 2;
+
+	Point p1(a.x - xS, a.y + yS);
+	Point p2(a.x + xS, a.y - yS);
+	Point p3(b.x + xS, b.y - yS);
+	Point p4(b.x - xS, b.y + yS);
+	/*
+	Point vector(b.x - a.x, b.y - a.y);
+	Point perpendicular(vector.y, -vector.x);
+
+	int length = std::sqrt(perpendicular.x * perpendicular.x + perpendicular.y * perpendicular.y);
+	Point normal(perpendicular.x / length, perpendicular.y / length);
+
+	Point p1(a.x + normal.x * width / 2, a.y + normal.y * width / 2);
+	Point p2(a.x - normal.x * width / 2, a.y - normal.y * width / 2);
+	Point p3(b.x + normal.x * width / 2, b.y + normal.y * width / 2);
+	Point p4(b.x - normal.x * width / 2, b.y - normal.y * width / 2);
+	*/
+	print(to_str(p1.x) + " " + to_str(p1.y) + " " + to_str(p2.x) + " " + to_str(p2.y) + " " + to_str(p3.x) + " " + to_str(p3.y) + " " + to_str(p4.x) + " " + to_str(p4.y), 200, 200);
+	fillRect(p1.x, p1.y, 4, 4, sf::Color::Green);
+	fillRect(p2.x, p2.y, 4, 4, sf::Color::Green);
+	fillRect(p3.x, p3.y, 4, 4, sf::Color::Green);
+	fillRect(p4.x, p4.y, 4, 4, sf::Color::Green);
+
+	fillShape(p2, p1, p3, p4, color);
+}

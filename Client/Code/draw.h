@@ -35,7 +35,7 @@ void fillShape(Point topLeft, Point topRight, Point botLeft, Point botRight, sf:
 	Point tR = topRight;
 	Point bL = botLeft;
 	Point bR = botRight;
-	if (tL.x > tR.x) {
+	/*if (tL.x > tR.x) {
 		swap(tL, tR);
 	}
 	if (bL.x > bR.x) {
@@ -46,7 +46,7 @@ void fillShape(Point topLeft, Point topRight, Point botLeft, Point botRight, sf:
 	}
 	if (tR.y > bR.y) {
 		swap(tR, bR);
-	}
+	}*/
 
 	setPlainVertex(numVertices++, tL.x, tL.y, color); // 1
 	setPlainVertex(numVertices++, tR.x, tR.y, color); // 2
@@ -79,22 +79,3 @@ Box drawSection(int x, int y, int w, int h, sf::Color border = UI_WHITE, sf::Col
 	return Box(x, y, w, h);
 }
 
-void drawLine(Point a, Point b, int width, sf::Color color) {
-	Point vector(b.x - a.x, b.y - a.y);
-	Point perpendicular(vector.y, -vector.x);
-
-	int length = std::sqrt(perpendicular.x * perpendicular.x + perpendicular.y * perpendicular.y);
-	Point normal(perpendicular.x / length, perpendicular.y / length);
-	
-	Point p1(a.x + normal.x * width / 2, a.y + normal.y * width / 2);
-	Point p2(a.x - normal.x * width / 2, a.y - normal.y * width / 2);
-	Point p3(b.x + normal.x * width / 2, b.y + normal.y * width / 2);
-	Point p4(b.x - normal.x * width / 2, b.y - normal.y * width / 2);
-
-	fillRect(p1.x, p1.y, 4, 4, sf::Color::Green);
-	fillRect(p2.x, p2.y, 4, 4, sf::Color::Green);
-	fillRect(p3.x, p3.y, 4, 4, sf::Color::Green);
-	fillRect(p4.x, p4.y, 4, 4, sf::Color::Green);
-
-	fillShape(p1, p2, p3, p4, color);
-}
