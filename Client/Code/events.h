@@ -1,6 +1,5 @@
 #pragma once
 
-
 void handleEvents(sf::RenderWindow* window) {
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;

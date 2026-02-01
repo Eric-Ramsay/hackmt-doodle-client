@@ -1,6 +1,5 @@
 #pragma once
 
-
 void charInfo(char c, int& sX, int& sY, int& sW, bool& drawChar) {
 	sW = 5;
 	if (c >= 'A' && c <= 'Z') {

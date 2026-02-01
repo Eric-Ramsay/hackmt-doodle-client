@@ -35,18 +35,6 @@ void fillShape(Point topLeft, Point topRight, Point botLeft, Point botRight, sf:
 	Point tR = topRight;
 	Point bL = botLeft;
 	Point bR = botRight;
-	/*if (tL.x > tR.x) {
-		swap(tL, tR);
-	}
-	if (bL.x > bR.x) {
-		swap(bL, bR);
-	}
-	if (tL.y > bL.y) {
-		swap(tL, bL);
-	}
-	if (tR.y > bR.y) {
-		swap(tR, bR);
-	}*/
 
 	setPlainVertex(numVertices++, tL.x, tL.y, color); // 1
 	setPlainVertex(numVertices++, tR.x, tR.y, color); // 2
