@@ -80,7 +80,7 @@ void handleEvents(sf::RenderWindow* window) {
 						std::string guess;
 						sendGuess["guess"] = guess;
 
-						auto guessResult = cli.Post("/players/guess/", sendGuess.dump(), "application/json");
+						auto guessResult = cli.Post("/players/guess/" + gameState.id, sendGuess.dump(), "application/json");
 
 						eventInfo.guess = "";
 					}
@@ -93,8 +93,7 @@ void handleEvents(sf::RenderWindow* window) {
 
 						if (nameResponse) {
 							auto jsonResponse = nlohmann::json::parse(nameResponse->body);
-							int clientId = jsonResponse["clientId"];
-							gameState.id = clientId;
+							gameState.id = jsonResponse["clientId"];
 						}
 
 						eventInfo.guess = "";

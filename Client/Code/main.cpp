@@ -82,7 +82,6 @@ int main() {
 							msg["guess"].get<std::string>(),
 							msg["userId"].get<std::string>(),
 						};
-						message.success = !message.success;
 						gameState.messages.push_back(message);
 					}
 
