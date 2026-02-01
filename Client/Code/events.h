@@ -74,24 +74,16 @@ void handleEvents(sf::RenderWindow* window) {
 				// @chandler mccook
 				// if event key code is enter and guess isn't empty,
 				//perform a post
-				/*httplib::Client cli("http://localhost:5062");
+				if (event.key.code == sf::Keyboard::Enter && eventInfo.guess != "")
+				{
+					httplib::Client cli("http://localhost:5062");
 
-				nlohmann::json j;
-				std::string name;
-				std::cout << "Player Name: ";
-				std::cin >> name;
-				j["name"] = name;
+					nlohmann::json sendGuess;
+					std::string guess;
+					sendGuess["guess"] = guess;
+					
+					auto guessResult = cli.Post("/players/guess/", sendGuess.dump(), "application/json");
 	
-				auto res = cli.Post("/players", j.dump(), "application/json");
-	
-				if (res){
-					if (res->status == 200){
-						std::cout << "Success!\n";
-					} else {
-						std::cout << "Res->status:";
-					}
-				}
-				*/
 
 				if (c != 0 && eventInfo.guess.size() < 30) {
 					eventInfo.guess += c;
