@@ -3,4 +3,4 @@ Release
 Debug
 *.o
 bin/
-enc_temp_folder/
+Client/enc_temp_folder/
