@@ -3,3 +3,4 @@ Release
 Debug
 *.o
 bin/
+enc_temp_folder

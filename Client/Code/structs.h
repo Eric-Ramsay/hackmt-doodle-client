@@ -58,8 +58,8 @@ struct Action {
 };
 
 struct GameState {
-	std::string currentWord;
 	int round;
+	std::string currentWord;
 	std::string drawingId;
 	std::vector<Action> actions;
 };
