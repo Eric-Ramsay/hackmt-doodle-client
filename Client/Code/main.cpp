@@ -67,6 +67,7 @@ int main() {
 			eventInfo.timer++;
 			if (eventInfo.timer == 101) {
 				eventInfo.timer = 0;
+				auto GameDataResponse = cli.Get("/players/getgamestate/");
 
 			}
 		}
