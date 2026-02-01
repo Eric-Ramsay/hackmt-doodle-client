@@ -4,6 +4,7 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <nlohmann/json.hpp>
 
 #include "httplib.h"
 #include "colors.h"
@@ -17,16 +18,35 @@
 
 int main() {
 	// HTTPS
-	httplib::Client cli("https://www.google.com");
+	httplib::Client cli("http://localhost:5062");
+	
+	// if (auto res = cli.Get("/")) {
+	// 	res->status;
+	// 	res->body;
+	// }
+	std::cout << "stdout";
 
-	if (auto res = cli.Get("/")) {
-		res->status;
-		res->body;
-	}
+	nlohmann::json j;
+	std::string name;
+	std::cin >> name;
+	j["name"] = name;
+	
+	auto res = cli.Post("/players", j.dump(), "application/json");
+	
+	if (res){
+		if (res->status == 200){
+			std::cout << "Success!";
+		} else {
+			std::cout << "Res->status:";
+		}
+} else {
+	std::cout << "failed to send";
+}
+
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
 	const int SCREEN_H = sf::VideoMode::getDesktopMode().height;
-
+	
 	const int SCALE_X = SCREEN_W / WIDTH;
 	const int SCALE_Y = SCREEN_H / HEIGHT;
 
@@ -93,5 +113,6 @@ int main() {
 		window.display();
 	}
 	
+
 	return 0;
 }
