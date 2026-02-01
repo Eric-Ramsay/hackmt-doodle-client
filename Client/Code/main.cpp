@@ -32,20 +32,23 @@ int main() {
 	j["name"] = name;
 	
 	auto res = cli.Post("/players", j.dump(), "application/json");
-	
+
 	if (res){
 		if (res->status == 200){
-			std::cout << "Success!\n";
+			std::cout << "Success!" << std::endl;
 		} else {
-			std::cout << "Res->status:";
+			std::cout << "Res->status:" << std::endl;
 		}
 } else {
-	std::cout << "failed to send\n";
-	std::cout << "Res status: " << res->status << "\n";
-	std::cout << "Error code: " << (int)res.error() << "\n";
+	std::cout << "failed to send" << std::endl;
+	std::cout << "Res status: " << res->status << std::endl;
+	std::cout << "Error code: " << (int)res.error() << std::endl;
 }
-	std::cout << "Waiting, input string: ";
-	std::cin >> name;
+
+	auto jsonResponse = nlohmann::json::parse(res->body);
+	int clientId = jsonResponse["clientId"];
+
+	std::cout << "Your client Id is: " << clientId << std::endl;
 
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
