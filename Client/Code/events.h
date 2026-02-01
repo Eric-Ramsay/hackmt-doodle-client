@@ -26,13 +26,18 @@ void handleEvents(sf::RenderWindow* window) {
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					eventInfo.mouseDown = true;
-					checkDraw(true);	
+					if (inRange(Box(CANVAS_X, CANVAS_Y, CANVAS_W, CANVAS_H))) {
+						actions.push_back(Action(Point(eventInfo.mouseX, eventInfo.mouseY), Point(), 12, PENCIL, "green"));
+					}
 				}
 			}
 			if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					eventInfo.mouseDown = false;
 					eventInfo.mouseUp = true;
+					if (actions.size() != 0 && (actions[actions.size() - 1].line.b.x == 0 || actions[actions.size() - 1].line.b.y == 0)) {
+						actions.pop_back();
+					}
 				}
 			}
 			if (event.type == sf::Event::KeyPressed) {
