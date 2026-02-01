@@ -1,6 +1,9 @@
 #pragma once
 
 void setVertex(int index, int sX, int sY, int dX, int dY, sf::Color color) {
+	if (index >= vertSize) {
+		return;
+	}
 	sf::Vertex* vertex = &vertices[index];
 	vertex->position.x = dX;
 	vertex->position.y = dY;
@@ -10,6 +13,9 @@ void setVertex(int index, int sX, int sY, int dX, int dY, sf::Color color) {
 }
 
 void setPlainVertex(int index, int dX, int dY, sf::Color color) {
+	if (index >= vertSize) {
+		return;
+	}
 	sf::Vertex* vertex = &vertices[index];
 	vertex->position.x = dX;
 	vertex->position.y = dY;
@@ -18,20 +24,58 @@ void setPlainVertex(int index, int dX, int dY, sf::Color color) {
 	vertex->texCoords.y = 0;
 }
 
-void drawSprite(int sourceX, int sourceY, int width, int height, int drawX, int drawY, sf::Color color = sf::Color(255, 255, 255)) {
-	setVertex(numVertices++, sourceX, sourceY, drawX, drawY, color); // 1
-	setVertex(numVertices++, sourceX + width, sourceY, drawX + width, drawY, color); // 2
-	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height, color); // 4
-	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + height, color); // 4
-	setVertex(numVertices++, sourceX + width, sourceY, drawX + width, drawY, color); // 2
-	setVertex(numVertices++, sourceX + width, sourceY + height, drawX + width, drawY + height, color); //3
+void swap(Point& a, Point& b) {
+	Point temp = a;
+	a = b;
+	b = temp;
 }
 
 void fillShape(Point topLeft, Point topRight, Point botLeft, Point botRight, sf::Color color) {
-	setPlainVertex(numVertices++, topLeft.x, topLeft.y, color); // 1
-	setPlainVertex(numVertices++, topRight.x, topRight.y, color); // 2
-	setPlainVertex(numVertices++, botLeft.x, botLeft.y, color); // 4
-	setPlainVertex(numVertices++, botLeft.x, botLeft.y, color); // 4
-	setPlainVertex(numVertices++, topRight.x, topRight.y, color); // 2
-	setPlainVertex(numVertices++, botRight.x, botRight.y, color); //3
+	Point tL = topLeft;
+	Point tR = topRight;
+	Point bL = botLeft;
+	Point bR = botRight;
+	/*if (tL.x > tR.x) {
+		swap(tL, tR);
+	}
+	if (bL.x > bR.x) {
+		swap(bL, bR);
+	}
+	if (tL.y > bL.y) {
+		swap(tL, bL);
+	}
+	if (tR.y > bR.y) {
+		swap(tR, bR);
+	}*/
+
+	setPlainVertex(numVertices++, tL.x, tL.y, color); // 1
+	setPlainVertex(numVertices++, tR.x, tR.y, color); // 2
+	setPlainVertex(numVertices++, bL.x, bL.y, color); // 4
+	setPlainVertex(numVertices++, bL.x, bL.y, color); // 4
+	setPlainVertex(numVertices++, tR.x, tR.y, color); // 2
+	setPlainVertex(numVertices++, bR.x, bR.y, color); // 3
 }
+
+Box drawSprite(int sourceX, int sourceY, int width, int height, int drawX, int drawY, sf::Color color = sf::Color(255, 255, 255), int scaleX = 1, int scaleY = 1) {
+	int w = width * scaleX;
+	int h = height * scaleY;
+	setVertex(numVertices++, sourceX, sourceY, drawX, drawY, color); // 1
+	setVertex(numVertices++, sourceX + width, sourceY, drawX + w, drawY, color); // 2
+	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + h, color); // 4
+	setVertex(numVertices++, sourceX, sourceY + height, drawX, drawY + h, color); // 4
+	setVertex(numVertices++, sourceX + width, sourceY, drawX + w, drawY, color); // 2
+	setVertex(numVertices++, sourceX + width, sourceY + height, drawX + w, drawY + h, color); //3
+
+	return Box(drawX, drawY, w, h);
+}
+
+Box fillRect(int drawX, int drawY, int width, int height, sf::Color color) {
+	return drawSprite(253, 0, 1, 1, drawX, drawY, color, width, height);
+}
+
+Box drawSection(int x, int y, int w, int h, sf::Color border = UI_WHITE, sf::Color inside = UI_BACKGROUND, int borderW = 1) {
+	fillRect(x, y, w, h, border);
+	fillRect(x + borderW, y + borderW, w - 2 * borderW, h - 2 * borderW, inside);
+	return Box(x, y, w, h);
+}
+
