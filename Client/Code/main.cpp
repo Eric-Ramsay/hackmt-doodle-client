@@ -56,7 +56,14 @@ int main() {
 				eventInfo.timer = 0;
 				httplib::Client cli("http://localhost:5062");
 				auto GameDataResponse = cli.Get("/players/getgamestate/");
-
+				nlohmann::json gameData = nlohmann::json::parse(GameDataResponse->body);
+				int RoundNum;
+				RoundNum = gameData["RoundNumber"];
+				std::string word;
+				word = gameData["Word"];
+				int drawerID;
+				drawerID = gameData["drawerID"];
+				auto GameTransition = cli.Get("/state/transition");
 			}
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
