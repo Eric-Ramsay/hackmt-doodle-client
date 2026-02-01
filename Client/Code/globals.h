@@ -17,3 +17,7 @@ const int CANVAS_H = HEIGHT - 4;
 EventInfo eventInfo;
 
 bool newDraw = false;
+
+GameState gameState;
+
+UI_STATE drawing = DRAW_UI;

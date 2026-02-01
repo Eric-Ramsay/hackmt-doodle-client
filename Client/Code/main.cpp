@@ -23,12 +23,13 @@ int main() {
 	nlohmann::json playerName;
 	playerName["name"] = "test";
 
-	auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
+	//auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
 
-	if (nameResponse) {
-		auto jsonResponse = nlohmann::json::parse(nameResponse->body);
-		int clientId = jsonResponse["clientId"];
-	}
+	//if (nameResponse) {
+	//	auto jsonResponse = nlohmann::json::parse(nameResponse->body);
+	//	int clientId = jsonResponse["clientId"];
+	//	gameState.id = clientId;
+	//}
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
 	const int SCREEN_H = sf::VideoMode::getDesktopMode().height;
@@ -66,6 +67,7 @@ int main() {
 			eventInfo.timer++;
 			if (eventInfo.timer == 101) {
 				eventInfo.timer = 0;
+
 			}
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));

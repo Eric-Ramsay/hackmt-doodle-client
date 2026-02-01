@@ -3,6 +3,10 @@
 
 void charInfo(char c, int& sX, int& sY, int& sW, bool& drawChar) {
 	sW = 5;
+	if (c == '_') {
+		sX = 156;
+		sY = 0;
+	}
 	if (c >= 'A' && c <= 'Z') {
 		sX = 6 * (c - 'A');
 		sY = 0;
@@ -26,7 +30,7 @@ void charInfo(char c, int& sX, int& sY, int& sW, bool& drawChar) {
 	}
 }
 
-int measureText(std::string text, float scale = 1) {
+int measureText(std::string text, int scale = 1) {
 	int sX, sY, sW;
 	int size = 0;
 	bool printChar = true;
@@ -37,12 +41,20 @@ int measureText(std::string text, float scale = 1) {
 	return ((size - 1) * scale);
 }
 
+enum ALIGN {
+	LEFT,
+	RIGHT,
+	CENTER
+};
 
-void print(std::string text, int x, int y, sf::Color color = UI_TEXT, int scale = 1, bool rightAlign = false) {
+void print(std::string text, int x, int y, sf::Color color = UI_TEXT, int scale = 1, ALIGN align = LEFT) {
 	int dX = x;
 	int dY = y;
-	if (rightAlign) {
-		dX -= measureText(text);
+	if (align == RIGHT) {
+		dX -= measureText(text, scale);
+	}
+	if (align == CENTER) {
+		dX -= measureText(text, scale) / 2;
 	}
 	for (char c : text) {
 		bool drawChar = true;

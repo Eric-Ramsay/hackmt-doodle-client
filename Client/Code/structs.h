@@ -72,9 +72,32 @@ struct Action {
 	}
 };
 
+struct Message {
+	bool succes;
+	std::string text = "";
+	int id;
+};
+
 struct GameState {
 	int round;
-	std::string currentWord;
-	std::string drawingId;
+	int timeRemaining;
+	int score;
+	int id;
+	std::string currentWord = "_________ ______";
+	int drawingId;
 	std::vector<Action> actions;
+	std::vector<Message> messages;
+};
+
+int min(int a, int b) {
+	if (a < b) {
+		return a;
+	}
+	return b;
+ }
+
+enum UI_STATE {
+	ENTER_NAME,
+	DRAW_UI,
+	PICK_WORD
 };
