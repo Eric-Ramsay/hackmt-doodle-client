@@ -17,6 +17,82 @@
 #include "events.h"
 
 int main() {
+	// HTTPS
+	httplib::Client cli("http://localhost:5062");
+
+	nlohmann::json playerName;
+	std::string name;
+	std::cout << "Player Name: ";
+	std::cin >> name;
+	playerName["name"] = name;
+	
+	auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
+
+	if (nameResponse){
+		if (nameResponse->status == 200){
+			std::cout << "Success!" << std::endl;
+		} else {
+			std::cout << "Res->status:" << std::endl;
+		}
+} else {
+	std::cout << "failed to send" << std::endl;
+	std::cout << "Res status: " << nameResponse->status << std::endl;
+	std::cout << "Error code: " << (int)nameResponse.error() << std::endl;
+}
+
+	auto jsonResponse = nlohmann::json::parse(nameResponse->body);
+	int clientId = jsonResponse["clientId"];
+
+	std::cout << "Your client Id is: " << clientId << std::endl;
+
+	auto scoreResult = cli.Get("/players/scores");
+
+	if (scoreResult) {
+		if (scoreResult->status == 200){
+			std::cout << "Success!" << std::endl;
+		} else {
+			std::cout << "Res->status:" << std::endl;
+		}
+	} else {
+	std::cout << "failed to send" << std::endl;
+	std::cout << "Res status: " << scoreResult->status << std::endl;
+	std::cout << "Error code: " << (int)scoreResult.error() << std::endl;
+	}
+
+	auto jsonScoreResponse = nlohmann::json::parse(scoreResult->body);
+	int score = jsonScoreResponse[std::to_string(clientId)];
+	std::cout << "Your score is: " << score << std::endl;
+	
+	std::string tempGuess;
+	nlohmann::json wordGuess;
+	std::cout << "Enter Guess: " << std::endl;
+	std::cin >> tempGuess;
+	wordGuess["guess"] = tempGuess;
+
+
+	auto guessResponse = cli.Post("/players/guess", wordGuess.dump(), "application/json");
+	if (guessResponse) {
+		if (guessResponse->status == 200){
+			std::cout << "Success!" << std::endl;
+		} else {
+			std::cout << "Res->status:" << std::endl;
+		}
+	} else {
+	std::cout << "failed to send" << std::endl;
+	std::cout << "Res status: " << guessResponse->status << std::endl;
+	std::cout << "Error code: " << (int)guessResponse.error() << std::endl;
+	}
+
+	auto jsonGuessResponse = nlohmann::json::parse(guessResponse->body);
+	bool guess = jsonGuessResponse["correct"];
+
+	if (guess)
+	{
+		std::cout << "Your guess was correct!" << std::endl;
+	} else
+	{
+		std::cout << "Your guess was incorrect" << std::endl;
+	}
 
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
