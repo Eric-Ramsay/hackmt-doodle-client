@@ -54,7 +54,7 @@ int main() {
 			eventInfo.timer++;
 			if (eventInfo.timer == 101) {
 				eventInfo.timer = 0;
-				httplib::Client cli("http://localhost:5062");
+				httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 				auto GameDataResponse = cli.Get("/players/getgamestate/");
 				nlohmann::json gameData = nlohmann::json::parse(GameDataResponse->body);
 				int RoundNum;

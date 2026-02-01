@@ -74,7 +74,7 @@ void handleEvents(sf::RenderWindow* window) {
 				if (event.key.code == sf::Keyboard::Enter && eventInfo.guess != "")
 				{
 					if (drawing == DRAW_UI) {
-						httplib::Client cli("http://localhost:5062");
+						httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 
 						nlohmann::json sendGuess;
 						std::string guess;
@@ -85,7 +85,7 @@ void handleEvents(sf::RenderWindow* window) {
 						eventInfo.guess = "";
 					}
 					else if (drawing == ENTER_NAME) {
-						httplib::Client cli("http://localhost:5062");
+						httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 						nlohmann::json playerName;
 						playerName["name"] = "test";
 

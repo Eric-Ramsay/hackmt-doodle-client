@@ -31,7 +31,7 @@ void drawOnCanvas() {
 					nlohmann::json actionsJson;
 					actionsJson["actions"] = actions;
 
-					httplib::Client cli("http://localhost:5062");
+					httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 					//auto drawRequest = cli.Post("/players/send-drawing-data/", actionsJson.dump(), "application/json");
 
 					actions = {};
@@ -171,7 +171,7 @@ void drawWordOptions() {
 			nlohmann::json wordChoiceRequest;
 			wordChoiceRequest["clientId"] = "test";
 			wordChoiceRequest["word"] = gameState.wordOptions[i];
-			httplib::Client cli("http://localhost:5062");
+			httplib::Client cli("https://hackmt-doodle-server-958025035627.us-central1.run.app");
 			auto drawRequest = cli.Post("/state/word/", wordChoiceRequest.dump(), "application/json");
 
 			drawing = DRAW_UI;
