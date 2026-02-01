@@ -27,6 +27,7 @@
     <ClInclude Include="Code\events.h" />
     <ClInclude Include="Code\globals.h" />
     <ClInclude Include="Code\print.h" />
+    <ClInclude Include="Code\serialize.h" />
     <ClInclude Include="Code\structs.h" />
     <ClInclude Include="Code\text.h" />
     <ClInclude Include="Code\UI.h" />
