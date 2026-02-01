@@ -53,7 +53,7 @@ void drawOnCanvas() {
 }
 
 void drawCanvas(std::vector<Action> actionlist) {
-	for (int i = actionlist.size() - 1; i >= 0; i--) {
+	for (int i = 0; i < actionlist.size(); i++) {
 		if (actionlist[i].tool == BUCKET) {
 			eventInfo.backgroundColor = actionlist[i].color;
 		}
