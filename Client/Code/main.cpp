@@ -3,9 +3,17 @@
 #include "httplib.h"
 
 int main() {
-    std::cout << "Hello World Test\n";
+	// HTTPS
+	httplib::Client cli("http://localhost:5062");
 
-    httplib::SSLClient cli("dummy.restapiexample.com", 443);
+	// /players/1
+	// /players/1000001
+	std::string playerRoute = "/players/";
+	std::string clientId = "2";
+	
+	if (auto res = cli.Post((playerRoute + clientId), "{\"name\": \"Chandler\", \"clientId\": \"2\"}", "text/json")) {
+		std::cout << res->status << " " << res->body << std::endl;
+	}
 
     auto res = cli.Get("/api/v1/employees");
 
