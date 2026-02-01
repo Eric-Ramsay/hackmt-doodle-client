@@ -73,6 +73,18 @@ void handleEvents(sf::RenderWindow* window) {
 						//get guess
 						// can do that right now
 						// send post request
+
+						//auto nameResponse = cli.Post("/players", playerName.dump(), "application/json");
+
+						//if (nameResponse) {
+						//	if (nameResponse->status == 200) {
+						//		std::cout << "Success!" << std::endl;
+						//	}
+						//	else {
+						//		std::cout << "Res->status:" << std::endl;
+						//	}
+						//}
+
 					}
 				}
 				/*httplib::Client cli("http://localhost:5062");

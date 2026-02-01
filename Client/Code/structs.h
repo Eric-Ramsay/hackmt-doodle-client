@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 struct Box {
 	int x;
@@ -73,4 +74,10 @@ struct GameState {
 	std::string currentWord;
 	std::string drawingId;
 	std::vector<Action> actions;
+};
+
+struct userInfo {
+	std::string name;
+	int id;
+	int score;
 };

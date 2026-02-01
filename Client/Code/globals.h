@@ -13,5 +13,6 @@ const int CANVAS_Y = 2;
 const int CANVAS_W = 400;
 const int CANVAS_H = HEIGHT - 4;
 
+userInfo user;
 
 EventInfo eventInfo;
