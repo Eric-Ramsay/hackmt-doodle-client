@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "serialize.h"
 #include "json.hpp"
 #include "httplib.h"
 #include "colors.h"

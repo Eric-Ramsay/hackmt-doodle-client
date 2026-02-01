@@ -9,6 +9,8 @@ bool inRange(Box box) {
 	return false;
 }
 
+
+
 void drawOnCanvas() {
 	// Draw on the canvas
 	if (eventInfo.mouseDown && inRange(Box(CANVAS_X, CANVAS_Y, CANVAS_W, CANVAS_H))) {
@@ -18,7 +20,13 @@ void drawOnCanvas() {
 
 			if (actions.size() > 25) {
 				// Send actions to the server
+				nlohmann::json actionsJson;
+				actionsJson["actions"] = actions;
 
+				httplib::Client cli("http://localhost:5062");
+				auto drawRequest = cli.Post("/players/send-drawing-data/", actionsJson.dump(), "application/json");
+
+				actions = {};
 				// Set actions to empty
 			}
 
