@@ -4,8 +4,8 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <nlohmann/json.hpp>
 
+#include "json.hpp"
 #include "httplib.h"
 #include "colors.h"
 #include "structs.h"
@@ -19,15 +19,10 @@
 int main() {
 	// HTTPS
 	httplib::Client cli("http://localhost:5062");
-	
-	// if (auto res = cli.Get("/")) {
-	// 	res->status;
-	// 	res->body;
-	// }
-	std::cout << "stdout";
 
 	nlohmann::json j;
 	std::string name;
+	std::cout << "Player Name: ";
 	std::cin >> name;
 	j["name"] = name;
 	
@@ -35,13 +30,17 @@ int main() {
 	
 	if (res){
 		if (res->status == 200){
-			std::cout << "Success!";
+			std::cout << "Success!\n";
 		} else {
 			std::cout << "Res->status:";
 		}
-} else {
-	std::cout << "failed to send";
-}
+	} else {
+		std::cout << "failed to send\n";
+		std::cout << "Res status: " << res->status << "\n";
+		std::cout << "Error code: " << (int)res.error() << "\n";
+	}
+	std::cout << "Waiting, input string: ";
+	std::cin >> name;
 
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
