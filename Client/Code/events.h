@@ -83,6 +83,7 @@ void handleEvents(sf::RenderWindow* window) {
 					sendGuess["guess"] = guess;
 					
 					auto guessResult = cli.Post("/players/guess/", sendGuess.dump(), "application/json");
+				}
 	
 
 				if (c != 0 && eventInfo.guess.size() < 30) {
