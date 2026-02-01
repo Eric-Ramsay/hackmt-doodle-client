@@ -4,8 +4,8 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <nlohmann/json.hpp>
 
+#include "json.hpp"
 #include "httplib.h"
 #include "colors.h"
 #include "structs.h"
@@ -19,11 +19,6 @@
 int main() {
 	// HTTPS
 	httplib::Client cli("http://localhost:5062");
-	
-	// if (auto res = cli.Get("/")) {
-	// 	res->status;
-	// 	res->body;
-	// }
 
 	nlohmann::json j;
 	std::string name;
@@ -49,7 +44,6 @@ int main() {
 	int clientId = jsonResponse["clientId"];
 
 	std::cout << "Your client Id is: " << clientId << std::endl;
-
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
 	const int SCREEN_H = sf::VideoMode::getDesktopMode().height;
