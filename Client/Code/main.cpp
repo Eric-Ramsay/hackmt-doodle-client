@@ -20,13 +20,13 @@ int main() {
 	// HTTPS
 	httplib::Client cli("http://localhost:5062");
 
-	nlohmann::json j;
+	nlohmann::json playerName;
 	std::string name;
 	std::cout << "Player Name: ";
 	std::cin >> name;
-	j["name"] = name;
+	playerName["name"] = name;
 	
-	auto res = cli.Post("/players", j.dump(), "application/json");
+	auto res = cli.Post("/players", playerName.dump(), "application/json");
 
 	if (res){
 		if (res->status == 200){
@@ -44,6 +44,25 @@ int main() {
 	int clientId = jsonResponse["clientId"];
 
 	std::cout << "Your client Id is: " << clientId << std::endl;
+
+	nlohmann::json scores;
+	auto result = cli.Get("/players/scores");
+
+	if (result) {
+		if (res->status == 200){
+			std::cout << "Success!" << std::endl;
+		} else {
+			std::cout << "Res->status:" << std::endl;
+		}
+	} else {
+	std::cout << "failed to send" << std::endl;
+	std::cout << "Res status: " << res->status << std::endl;
+	std::cout << "Error code: " << (int)res.error() << std::endl;
+	}
+
+	auto jsonScoreResponse = nlohmann::json::parse(result->body);
+	int score = jsonScoreResponse[std::to_string(clientId)];
+	std::cout << "Your score is: " << score << std::endl;
 
 	const int SCREEN_W = sf::VideoMode::getDesktopMode().width;
 	const int SCREEN_H = sf::VideoMode::getDesktopMode().height;
