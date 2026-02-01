@@ -36,12 +36,14 @@ int measureText(std::string text, float scale = 1) {
 	return ((size - 1) * scale);
 }
 
-
-void print(std::string text, int x, int y, sf::Color color = UI_TEXT, int scale = 1, bool rightAlign = false) {
+void print(std::string text, int x, int y, sf::Color color = UI_TEXT, int scale = 1, align alignment) {
 	int dX = x;
 	int dY = y;
-	if (rightAlign) {
+	if (alignment == align::RIGHT) {
 		dX -= measureText(text);
+	} 
+	else if (alignment == align::CENTER) {
+		dX -= measureText(text) / 2;
 	}
 	for (char c : text) {
 		bool drawChar = true;

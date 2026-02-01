@@ -10,7 +10,7 @@ bool inRange(Box box) {
 }
 
 void drawWordSection() {
-
+	//int cmon man
 }
 
 void drawGuessSection() {
@@ -25,7 +25,7 @@ void drawGuessSection() {
 
 	Box textBox = drawSection(x + 2, y + HEIGHT - 25, w - 8, 15);
 	print(eventInfo.guess, textBox.x + 4, textBox.y + 4);
-	print(to_str(eventInfo.guess.size()), textBox.x + textBox.w - 4, textBox.y + 4, UI_WHITE, 1, true);
+	print(to_str(eventInfo.guess.size()), textBox.x + textBox.w - 4, textBox.y + 4, UI_WHITE, 1, align::RIGHT);
 }
 
 void drawCanvasSection() {

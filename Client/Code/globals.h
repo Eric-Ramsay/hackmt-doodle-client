@@ -10,3 +10,5 @@ const int HEIGHT = 360;
 EventInfo eventInfo;
 
 bool drawing = true;
+
+enum align { LEFT, CENTER, RIGHT };
